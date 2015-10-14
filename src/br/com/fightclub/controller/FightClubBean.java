@@ -17,21 +17,61 @@ public class FightClubBean {
 	// objects
 	private Cliente cliente;
 	private Administrador admin;
-	
-	//lists
+
+	// lists
 	private List<Cliente> listaCliente;
-	
+
 	// daos
 	private ClienteDAO clienteDAO;
 	private AdministradorDAO admDAO;
-		
-	public FightClubBean()
-	{
+
+	public FightClubBean() {
 		this.cliente = new Cliente();
 		this.admin = new Administrador();
 		this.admDAO = new AdministradorDAO();
 		this.clienteDAO = new ClienteDAO();
-		
+
 		this.listaCliente = new ArrayList<Cliente>();
 	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
+	public Administrador getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Administrador admin) {
+		this.admin = admin;
+	}
+
+	public List<Cliente> getListaCliente() {
+		return listaCliente;
+	}
+
+	public void setListaCliente(List<Cliente> listaCliente) {
+		this.listaCliente = listaCliente;
+	}
+
+	public ClienteDAO getClienteDAO() {
+		return clienteDAO;
+	}
+
+	public void setClienteDAO(ClienteDAO clienteDAO) {
+		this.clienteDAO = clienteDAO;
+	}
+
+	public AdministradorDAO getAdmDAO() {
+		return admDAO;
+	}
+
+	public void setAdmDAO(AdministradorDAO admDAO) {
+		this.admDAO = admDAO;
+	}
+
 }
