@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS `fightclub`.`cliente` (
   `email` VARCHAR(128) NOT NULL,
   `telefone` VARCHAR(16) NOT NULL,
   `empresa` VARCHAR(128) NULL,
-  PRIMARY KEY (`id`));
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
@@ -30,9 +30,135 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `fightclub`.`administrador` (
   `login` VARCHAR(64) NOT NULL,
   `senha` VARCHAR(64) NOT NULL,
-  PRIMARY KEY (`login`));
+  PRIMARY KEY (`login`))
+ENGINE = InnoDB;
 
 
 -- SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+/**************/
+/* PROCEDURES */
+/**************/
+
+/* PROCEDURES PARA CLIENTE*/
+-- INSERT
+DELIMITER $$
+
+CREATE PROCEDURE clienteInsert
+(
+	IN clienteNome VARCHAR(64),
+    IN clienteEmail VARCHAR(128),
+    IN clienteTelefone VARCHAR(16),
+    IN clienteEmpresa VARCHAR(128)
+)
+BEGIN
+	
+    INSERT INTO fightclub.CLIENTE (nome, email, telefone, empresa)
+    VALUES (clienteNome, clienteEmail, clienteTelefone, clienteEmpresa);
+    
+    COMMIT;
+    
+END $$
+
+DELIMITER ;
+
+-- UPDATE
+DELIMITER $$
+
+CREATE PROCEDURE clienteUpdate
+(
+	IN clienteId INT,
+	IN clienteNome VARCHAR(64),
+    IN clienteEmail VARCHAR(128),
+    IN clienteTelefone VARCHAR(16),
+    IN clienteEmpresa VARCHAR(128)
+)
+BEGIN
+	
+    UPDATE fightclub.CLIENTE
+    SET nome=clienteNome, email=clienteEmail, telefone=clienteTelefone, empresa=clienteEmpresa
+    WHERE id=clienteId;
+    
+    COMMIT;
+    
+END $$
+
+DELIMITER ;
+
+-- DELETE
+DELIMITER $$
+
+CREATE PROCEDURE clienteDelete
+(
+	IN clienteId INT
+)
+BEGIN
+	
+    DELETE FROM fightclub.CLIENTE
+    WHERE id=clienteId;
+    
+    COMMIT;
+    
+END $$
+
+DELIMITER ;
+
+/* PROCEDURES PARA ADMINISTRADOR */
+-- INSERT
+DELIMITER $$
+
+CREATE PROCEDURE administradorInsert
+(
+	IN adminLogin VARCHAR(64),
+    IN adminSenha VARCHAR(64)
+)
+BEGIN
+	
+    INSERT INTO fightclub.ADMINISTRADOR (login, senha)
+    VALUES (adminLogin, adminSenha);
+    
+    COMMIT;
+    
+END $$
+
+DELIMITER ;
+
+-- UPDATE
+DELIMITER $$
+
+CREATE PROCEDURE administradorUpdate
+(
+	IN adminLogin VARCHAR(64),
+	IN adminSenha VARCHAR(64)
+)
+BEGIN
+	
+    UPDATE fightclub.ADMINISTRADOR
+    SET senha=adminSenha
+    WHERE login=adminLogin;
+    
+    COMMIT;
+    
+END $$
+
+DELIMITER ;
+
+-- DELETE
+DELIMITER $$
+
+CREATE PROCEDURE administradorDelete
+(
+	IN adminLogin VARCHAR(64)
+)
+BEGIN
+	
+    DELETE FROM fightclub.ADMINISTRADOR
+    WHERE login=adminLogin;
+    
+    COMMIT;
+    
+END $$
+
+DELIMITER ;
