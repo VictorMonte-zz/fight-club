@@ -56,23 +56,22 @@ public class AdministradorDAO implements GenericDAO<Administrador> {
 	}
 
 	@Override
-	public Administrador get(Integer id) throws ClassNotFoundException,
+	public Administrador get(Administrador admin) throws ClassNotFoundException,
 			SQLException {
 		
 		Connection dbConnection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
-		Administrador admin = null;
 		
 		try {
 
 			dbConnection = ConnectionFactory.getConnection();
 
-			String sql = "SELECT * FROM fightclub.ADMINISTRADOR"
-					+ "WHERE ID = ?";
+			String sql = "SELECT * FROM fightclub.ADMINISTRADOR "
+					+ "WHERE LOGIN = ?";
 
 			preparedStatement = dbConnection.prepareStatement(sql);
-			preparedStatement.setInt(1, id);
+			preparedStatement.setString(1, admin.getLogin());
 
 			rs = preparedStatement.executeQuery();
 
@@ -131,7 +130,8 @@ public class AdministradorDAO implements GenericDAO<Administrador> {
 		return admin;
 		
 	}
-
+	
+	//somente modifica a senha
 	@Override
 	public boolean update(Administrador admin) throws ClassNotFoundException,
 			SQLException {

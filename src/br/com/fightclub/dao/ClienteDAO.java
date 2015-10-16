@@ -58,22 +58,21 @@ public class ClienteDAO implements GenericDAO<Cliente> {
 	}
 
 	@Override
-	public Cliente get(Integer id) throws ClassNotFoundException, SQLException {
+	public Cliente get(Cliente cliente) throws ClassNotFoundException, SQLException {
 		
 		Connection dbConnection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
-		Cliente cliente = null;
 		
 		try {
 
 			dbConnection = ConnectionFactory.getConnection();
 
-			String sql = "SELECT * FROM fightclub.CLIENTE"
+			String sql = "SELECT * FROM fightclub.CLIENTE "
 					+ "WHERE ID = ?";
 
 			preparedStatement = dbConnection.prepareStatement(sql);
-			preparedStatement.setInt(1, id);
+			preparedStatement.setInt(1, cliente.getId());
 
 			rs = preparedStatement.executeQuery();
 
@@ -85,7 +84,7 @@ public class ClienteDAO implements GenericDAO<Cliente> {
 				cliente.setTelefone(rs.getString("TELEFONE"));
 				cliente.setEmpresa(rs.getString("EMPRESA"));
 			}
-
+			
 			return cliente;
 
 		} finally {

@@ -13,7 +13,7 @@ public class ConnectionFactory {
 		// MYSQL
 
 		String driverName = "com.mysql.jdbc.Driver";
-		String url = "jdbc:mysql://localhost/mydb";
+		String url = "jdbc:mysql://localhost/fightclub";
 		String username = "root";
 		String password = "";
 
