@@ -38,9 +38,9 @@ ENGINE = InnoDB;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
-/**************/
-/* PROCEDURES */
-/**************/
+/***************
+** PROCEDURES **
+***************/
 
 /* PROCEDURES PARA CLIENTE*/
 -- INSERT
@@ -54,9 +54,40 @@ CREATE PROCEDURE clienteInsert
     IN clienteEmpresa VARCHAR(128)
 )
 BEGIN
-	
-    INSERT INTO fightclub.CLIENTE (nome, email, telefone, empresa)
-    VALUES (clienteNome, clienteEmail, clienteTelefone, clienteEmpresa);
+    
+    /* exceções que serão retornadas */
+    DECLARE nomeInvalido CONDITION FOR SQLSTATE '45001';
+    DECLARE emailInvalido CONDITION FOR SQLSTATE '45002';
+    DECLARE telefoneInvalido CONDITION FOR SQLSTATE '45003';
+    
+    /* verifica conteúdo de campos NOT NULL */
+    IF clienteNome IS NULL OR clienteNome = '' THEN
+		SIGNAL SQLSTATE '45001'
+			SET MESSAGE_TEXT = 'Nome do cliente não pode ser nulo.';
+	END IF;
+    
+    IF clienteEmail IS NULL OR clienteEmail = '' THEN
+		SIGNAL SQLSTATE '45002'
+			SET MESSAGE_TEXT = 'E-mail do cliente não pode ser nulo.';
+	END IF;
+    
+    IF clienteTelefone IS NULL OR clienteTelefone = '' THEN
+		SIGNAL SQLSTATE '45003'
+			SET MESSAGE_TEXT = 'Telefone do cliente não pode ser nulo.';
+	END IF;
+    
+    /* insert principal */
+    PREPARE stmt
+		FROM 'INSERT INTO fightclub.CLIENTE (nome, email, telefone, empresa) 
+			VALUES (?, ?, ?, ?)';
+	SET @nome = clienteNome;
+    SET @email = clienteEmail;
+    SET @telefone = clienteTelefone;
+    SET @empresa = clienteEmpresa;
+    
+    EXECUTE stmt USING @nome, @email, @telefone, @empresa;
+    
+    DEALLOCATE PREPARE stmt;
     
     COMMIT;
     
@@ -77,9 +108,62 @@ CREATE PROCEDURE clienteUpdate
 )
 BEGIN
 	
-    UPDATE fightclub.CLIENTE
-    SET nome=clienteNome, email=clienteEmail, telefone=clienteTelefone, empresa=clienteEmpresa
-    WHERE id=clienteId;
+	/* variável para checagem de existência do registro */
+    DECLARE clienteCount TINYINT(1);
+    
+    /* exceções que serão retornadas */
+    DECLARE idInvalido CONDITION FOR SQLSTATE '45000';
+    DECLARE nomeInvalido CONDITION FOR SQLSTATE '45001';
+    DECLARE emailInvalido CONDITION FOR SQLSTATE '45002';
+    DECLARE telefoneInvalido CONDITION FOR SQLSTATE '45003';
+    DECLARE registroInexistente CONDITION FOR SQLSTATE '45100';
+    
+    /* verifica se o id recebido é valido */
+    IF clienteId <= 0 THEN
+		SIGNAL SQLSTATE '45000'
+			SET MESSAGE_TEXT = 'ID do cliente inválido.';
+	END IF;
+	
+    /* verifica se o registro existe */
+    SELECT COUNT(*) INTO clienteCount
+    FROM fightclub.cliente
+    WHERE id = clienteId;
+    
+    IF clienteCount = 0 THEN
+		SIGNAL SQLSTATE '45100'
+			SET MESSAGE_TEXT = 'Cliente não encontrado.';
+	END IF;
+    
+    /* verifica conteúdo de campos NOT NULL */
+    IF clienteNome IS NULL OR clienteNome = '' THEN
+		SIGNAL SQLSTATE '45001'
+			SET MESSAGE_TEXT = 'Nome do cliente não pode ser nulo.';
+	END IF;
+    
+    IF clienteEmail IS NULL OR clienteEmail = '' THEN
+		SIGNAL SQLSTATE '45002'
+			SET MESSAGE_TEXT = 'E-mail do cliente não pode ser nulo.';
+	END IF;
+    
+    IF clienteTelefone IS NULL OR clienteTelefone = '' THEN
+		SIGNAL SQLSTATE '45003'
+			SET MESSAGE_TEXT = 'Telefone do cliente não pode ser nulo.';
+	END IF;
+    
+    /* update principal */
+    PREPARE stmt
+		FROM 'UPDATE fightclub.CLIENTE
+            SET nome=?, email=?, telefone=?, empresa=?
+            WHERE id=?';
+    SET @id = clienteId;
+	SET @nome = clienteNome;
+    SET @email = clienteEmail;
+    SET @telefone = clienteTelefone;
+    SET @empresa = clienteEmpresa;
+    
+    EXECUTE stmt USING @nome, @email, @telefone, @empresa, @id;
+    
+    DEALLOCATE PREPARE stmt;
     
     COMMIT;
     
@@ -96,8 +180,40 @@ CREATE PROCEDURE clienteDelete
 )
 BEGIN
 	
-    DELETE FROM fightclub.CLIENTE
-    WHERE id=clienteId;
+    /* variável para checagem de existência do registro */
+    DECLARE clienteCount TINYINT(1);
+    
+    /* exceções que serão retornadas */
+    DECLARE idInvalido CONDITION FOR SQLSTATE '45000';
+    DECLARE registroInexistente CONDITION FOR SQLSTATE '45100';
+    
+    /* verifica se o id recebido é valido */
+    IF clienteId <= 0 THEN
+		SIGNAL SQLSTATE '45000'
+			SET MESSAGE_TEXT = 'ID do cliente inválido.';
+	END IF;
+	
+    /* verifica se o registro existe */
+    SELECT COUNT(*) INTO clienteCount
+    FROM fightclub.cliente
+    WHERE id = clienteId;
+    
+    IF clienteCount = 0 THEN
+		SIGNAL SQLSTATE '45100'
+			SET MESSAGE_TEXT = 'Cliente não encontrado.';
+	END IF;
+    
+    /* delete principal */
+    PREPARE stmt
+		FROM 'DELETE FROM fightclub.CLIENTE
+            WHERE id=?';
+    SET @id = clienteId;
+    
+    EXECUTE stmt USING @id;
+    
+    DEALLOCATE PREPARE stmt;
+    
+    
     
     COMMIT;
     
@@ -116,8 +232,45 @@ CREATE PROCEDURE administradorInsert
 )
 BEGIN
 	
-    INSERT INTO fightclub.ADMINISTRADOR (login, senha)
-    VALUES (adminLogin, adminSenha);
+	/* variável para checagem de existência do registro */
+    DECLARE adminCount TINYINT(1);
+    
+	/* exceções que serão retornadas */
+    DECLARE loginInvalido CONDITION FOR SQLSTATE '45001';
+    DECLARE senhaInvalido CONDITION FOR SQLSTATE '45002';
+    DECLARE chaveDuplicada CONDITION FOR SQLSTATE '45101';
+    
+    /* verifica conteúdo de campos NOT NULL */
+    IF adminLogin IS NULL OR adminLogin = '' THEN
+		SIGNAL SQLSTATE '45001'
+			SET MESSAGE_TEXT = 'Login do Administrador não pode ser nulo.';
+	END IF;
+    
+    IF adminSenha IS NULL OR adminSenha = '' THEN
+		SIGNAL SQLSTATE '45002'
+			SET MESSAGE_TEXT = 'Senha do Administrador não pode ser nulo.';
+	END IF;
+    
+    /* verifica chave duplicada */
+    SELECT COUNT(*) INTO adminCount
+    FROM fightclub.administrador
+    WHERE login = adminLogin;
+    
+    IF adminCount = 1 THEN
+		SIGNAL SQLSTATE '45101'
+			SET MESSAGE_TEXT = 'Já existe um Administrador com este login!';
+	END IF;
+    
+    /* insert principal */
+    PREPARE stmt
+		FROM 'INSERT INTO fightclub.ADMINISTRADOR (login, senha)
+    VALUES (?, ?)';
+    SET @login = adminLogin;
+	SET @senha = adminSenha;
+    
+    EXECUTE stmt USING @login, @senha;
+    
+    DEALLOCATE PREPARE stmt;
     
     COMMIT;
     
@@ -134,10 +287,46 @@ CREATE PROCEDURE administradorUpdate
 	IN adminSenha VARCHAR(64)
 )
 BEGIN
+    
+	/* variável para checagem de existência do registro */
+    DECLARE adminCount TINYINT(1);
+    
+    /* exceções que serão retornadas */
+    DECLARE loginInvalido CONDITION FOR SQLSTATE '45000';
+    DECLARE senhaInvalido CONDITION FOR SQLSTATE '45001';
+    
+    /* verifica conteúdo de campos NOT NULL */
+    IF adminLogin IS NULL OR adminLogin = '' THEN
+		SIGNAL SQLSTATE '45000'
+			SET MESSAGE_TEXT = 'Login do Administrador não pode ser nulo.';
+	END IF;
+    
+    IF adminSenha IS NULL OR adminSenha = '' THEN
+		SIGNAL SQLSTATE '45001'
+			SET MESSAGE_TEXT = 'Senha do Administrador não pode ser nulo.';
+	END IF;
 	
-    UPDATE fightclub.ADMINISTRADOR
-    SET senha=adminSenha
-    WHERE login=adminLogin;
+    /* verifica se o registro existe */
+    SELECT COUNT(*) INTO adminCount
+    FROM fightclub.administrador
+    WHERE login = adminLogin;
+    
+    IF adminCount = 0 THEN
+		SIGNAL SQLSTATE '45100'
+			SET MESSAGE_TEXT = 'Administrador não encontrado.';
+	END IF;
+    
+    /* update principal */
+    PREPARE stmt
+		FROM 'UPDATE fightclub.ADMINISTRADOR
+			SET senha=?
+            WHERE login=?';
+	SET @senha = adminSenha;
+    SET @login = adminLogin;
+    
+    EXECUTE stmt USING @senha, @login;
+    
+    DEALLOCATE PREPARE stmt;
     
     COMMIT;
     
@@ -153,9 +342,39 @@ CREATE PROCEDURE administradorDelete
 	IN adminLogin VARCHAR(64)
 )
 BEGIN
+
+	/* variável para checagem de existência do registro */
+    DECLARE adminCount TINYINT(1);
+    
+    /* exceções que serão retornadas */
+    DECLARE idInvalido CONDITION FOR SQLSTATE '45000';
+    DECLARE registroInexistente CONDITION FOR SQLSTATE '45100';
+    
+    /* verifica se o id recebido é valido */
+    IF adminLogin IS NULL OR adminLogin = '' THEN
+		SIGNAL SQLSTATE '45000'
+			SET MESSAGE_TEXT = 'Login do Administrador inválido.';
+	END IF;
 	
-    DELETE FROM fightclub.ADMINISTRADOR
-    WHERE login=adminLogin;
+    /* verifica se o registro existe */
+    SELECT COUNT(*) INTO adminCount
+    FROM fightclub.administrador
+    WHERE login = adminLogin;
+    
+    IF adminCount = 0 THEN
+		SIGNAL SQLSTATE '45100'
+			SET MESSAGE_TEXT = 'Administrador não encontrado.';
+	END IF;
+    
+    /* delete principal */
+    PREPARE stmt
+		FROM 'DELETE FROM fightclub.ADMINISTRADOR
+			WHERE login=?';
+    SET @id = adminLogin;
+    
+    EXECUTE stmt USING @id;
+    
+    DEALLOCATE PREPARE stmt;
     
     COMMIT;
     
