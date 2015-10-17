@@ -21,6 +21,7 @@ public class FightClubBean {
 	// objects
 	private Cliente cliente;
 	private Administrador admin;
+	private Administrador adminNovo;
 
 	// lists
 	private List<Cliente> listaCliente;
@@ -33,14 +34,14 @@ public class FightClubBean {
 	public FightClubBean() {
 		this.cliente = new Cliente();
 		this.admin = new Administrador();
+		this.adminNovo = new Administrador();
 		this.admDAO = new AdministradorDAO();
 		this.clienteDAO = new ClienteDAO();
 
 		this.listaCliente = new ArrayList<Cliente>();
 		this.listaAdmin = new ArrayList<Administrador>();
 		
-	}
-
+	}	
 	
 	// getters & setters
 	public Cliente getCliente() {
@@ -90,7 +91,16 @@ public class FightClubBean {
 	public void setListaAdmin(List<Administrador> listaAdmin) {
 		this.listaAdmin = listaAdmin;
 	}
+		
 	
+	public Administrador getAdminNovo() {
+		return adminNovo;
+	}
+
+	public void setAdminNovo(Administrador adminNovo) {
+		this.adminNovo = adminNovo;
+	}
+
 	// methods
 	public String clienteInsert(){
 		
@@ -207,28 +217,32 @@ public class FightClubBean {
 		FacesContext context = FacesContext.getCurrentInstance();
 		
 		try {
-			admin = admDAO.save(admin);
+			adminNovo = admDAO.save(adminNovo);
+			
+			listaAdmin = admDAO.getAll();
+			
+			adminNovo = new Administrador();
 			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 			
 			FacesMessage exceptionMessage = new FacesMessage("Erro interno: Classe não encontrada.");
-			context.addMessage("FormularioAdminInterno:msgAdmin", exceptionMessage);
+			context.addMessage("FormularioAdminCadastro:msgAdminCad", exceptionMessage);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			
 			FacesMessage exceptionMessage = new FacesMessage("Erro interno de SQL.");
-			context.addMessage("FormularioAdminInterno:msgAdmin", exceptionMessage);
+			context.addMessage("FormularioAdminCadastro:msgAdminCad", exceptionMessage);
 		}
 		
 		if(admin != null){
 			FacesMessage successMessage = new FacesMessage("Administrador cadastrado com sucesso!");
-			context.addMessage("FormularioAdminInterno:msgAdmin", successMessage);
+			context.addMessage("FormularioAdminCadastro:msgAdminCad", successMessage);
 			
 		}else{
 			FacesMessage errorMessage = new FacesMessage("Não foi possível cadastrar o administrador.");
-			context.addMessage("FormularioAdminInterno:msgAdmin", errorMessage);
+			context.addMessage("FormularioAdminCadastro:msgAdminCad", errorMessage);
 		}
 		
 		admin = new Administrador();
@@ -253,22 +267,22 @@ public class FightClubBean {
 			e.printStackTrace();
 			
 			FacesMessage exceptionMessage = new FacesMessage("Erro interno: Classe não encontrada.");
-			context.addMessage(null, exceptionMessage);
+			context.addMessage("FormularioAdminInterno:msgAdmin", exceptionMessage);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			
 			FacesMessage exceptionMessage = new FacesMessage("Erro interno de SQL.");
-			context.addMessage(null, exceptionMessage);
+			context.addMessage("FormularioAdminInterno:msgAdmin", exceptionMessage);
 		}
 		
 		if(success){
 			FacesMessage successMessage = new FacesMessage("Senha do administrador atualizada com sucesso!");
-			context.addMessage(null, successMessage);
+			context.addMessage("FormularioAdminInterno:msgAdmin", successMessage);
 			
 		}else{
 			FacesMessage errorMessage = new FacesMessage("Não foi possível modificar a senha do administrador.");
-			context.addMessage(null, errorMessage);
+			context.addMessage("FormularioAdminInterno:msgAdmin", errorMessage);
 		}
 		
 		return null;
@@ -289,22 +303,22 @@ public class FightClubBean {
 			e.printStackTrace();
 			
 			FacesMessage exceptionMessage = new FacesMessage("Erro interno: Classe não encontrada.");
-			context.addMessage(null, exceptionMessage);
+			context.addMessage("FormularioAdminInterno:msgAdmin", exceptionMessage);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			
 			FacesMessage exceptionMessage = new FacesMessage("Erro interno de SQL.");
-			context.addMessage(null, exceptionMessage);
+			context.addMessage("FormularioAdminInterno:msgAdmin", exceptionMessage);
 		}
 		
 		if(success){
 			FacesMessage successMessage = new FacesMessage("Administrador excluído com sucesso!");
-			context.addMessage(null, successMessage);
+			context.addMessage("FormularioAdminInterno:msgAdmin", successMessage);
 			
 		}else{
 			FacesMessage errorMessage = new FacesMessage("Não foi possível excluir o administrador.");
-			context.addMessage(null, errorMessage);
+			context.addMessage("FormularioAdminInterno:msgAdmin", errorMessage);
 		}
 		
 		return null;

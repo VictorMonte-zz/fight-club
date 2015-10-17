@@ -56,10 +56,9 @@
 		<!-- Main component for a primary marketing message or call to action -->
 		<div class="jumbotron">
 			<h1>Bem vindo, #{fightClubBean.admin.login}!</h1>
-			<br />
-			<h4>Abaixo todos os administradores cadastrados.</h4>
+			<br />			
 			<div class="panel panel-default">
-				<div class="panel panel-heading">Lista de Clientes</div>
+				<div class="panel panel-heading">Lista de Administradores</div>
 				<div class="panel panel-body">
 					<h:form id="FormularioAdminInterno">
 						<h:dataTable value="#{fightClubBean.listaAdmin}" var="admin" styleClass="table table-bordered"
@@ -93,14 +92,66 @@
 						
 						<c:if test="#{empty fightClubBean.listaAdmin}">
 							<div class="alert alert-warning" role="alert">Nenhum admin cadastrado!</div>	
-						</c:if>	
+						</c:if>										
 						
-						
-						<h:messages id="msgAdmin" />
-						
+						<h:messages id="msgAdmin" />						
+					</h:form>
+				</div>
+				</div>
+				
+				<div class="panel panel-default" style="width:500px">
+					<div class="panel panel-heading">Cadastro de Administrador</div>
+					<div class="panel panel-body">
+						<h:form id="FormularioAdminCadastro">										
+							<div class="row">
+								<div class="col-md-3">	
+									<div class="pull-right">							
+										Login
+									</div>								
+								</div>
+								<div class="col-md-8">
+									<h:inputText styleClass="form-control" value="#{fightClubBean.adminNovo.login}"></h:inputText>
+								</div>
+								<div class="col-md-1">								
+									
+								</div>
+							</div>
+							
+							<br />
+							
+							<div class="row">
+								<div class="col-md-3">	
+									<div class="pull-right">							
+										Senha
+									</div>								
+								</div>
+								<div class="col-md-8">
+									<h:inputSecret styleClass="form-control" value="#{fightClubBean.adminNovo.senha}"></h:inputSecret>
+								</div>
+								<div class="col-md-1">								
+									
+								</div>
+							</div>
+							
+							<br />
+							
+							<div class="row">
+								<div class="col-md-6">								
+									
+								</div>
+								<div class="col-md-6">
+									<div class="pull-right">
+										<h:commandButton value="Cadastrar" action="#{fightClubBean.adminInsert}"
+											styleClass="btn btn-primary" ></h:commandButton>
+									</div>						
+								</div>								
+							</div>
+							
+							<h:messages id="msgAdminCad" />
+												
 						</h:form>
 					</div>
-				</div>
+				</div>								
 			</div>
 		</div>
 
