@@ -40,7 +40,7 @@ public class FightClubBean {
 		this.listaAdmin = new ArrayList<Administrador>();
 		
 	}
-	
+
 	
 	// getters & setters
 	public Cliente getCliente() {
@@ -103,22 +103,22 @@ public class FightClubBean {
 			e.printStackTrace();
 			
 			FacesMessage exceptionMessage = new FacesMessage("Erro interno: Classe não encontrada.");
-			context.addMessage(null, exceptionMessage);
+			context.addMessage("FormularioCliente:msgCliente", exceptionMessage);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			
 			FacesMessage exceptionMessage = new FacesMessage("Erro interno de SQL.");
-			context.addMessage(null, exceptionMessage);
+			context.addMessage("FormularioCliente:msgCliente", exceptionMessage);
 		}
 		
 		if(cliente != null){
 			FacesMessage successMessage = new FacesMessage("Cliente cadastrado com sucesso!");
-			context.addMessage(null, successMessage);
+			context.addMessage("FormularioCliente:msgCliente", successMessage);
 			
 		}else{
 			FacesMessage errorMessage = new FacesMessage("Não foi possível cadastrar o cliente.");
-			context.addMessage(null, errorMessage);
+			context.addMessage("FormularioCliente:msgCliente", errorMessage);
 		}
 		
 		cliente = new Cliente();
@@ -133,35 +133,38 @@ public class FightClubBean {
 		boolean success = false;
 		
 		try {
-			success = clienteDAO.update(cliente);
+			for (Cliente cliente : listaCliente) {
+				success = clienteDAO.update(cliente);
+				cliente.setEditable(false);
+			}
 			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 			
 			FacesMessage exceptionMessage = new FacesMessage("Erro interno: Classe não encontrada.");
-			context.addMessage(null, exceptionMessage);
+			context.addMessage("FormularioClienteInterno:msgCliente", exceptionMessage);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			
 			FacesMessage exceptionMessage = new FacesMessage("Erro interno de SQL.");
-			context.addMessage(null, exceptionMessage);
+			context.addMessage("FormularioClienteInterno:msgCliente", exceptionMessage);
 		}
 		
 		if(success){
 			FacesMessage successMessage = new FacesMessage("Dados do cliente atualizados com sucesso!");
-			context.addMessage(null, successMessage);
+			context.addMessage("FormularioClienteInterno:msgCliente", successMessage);
 			
 		}else{
 			FacesMessage errorMessage = new FacesMessage("Não foi possível modificar os dados do cliente.");
-			context.addMessage(null, errorMessage);
+			context.addMessage("FormularioClienteInterno:msgCliente", errorMessage);
 		}
 		
 		return null;
 		
 	}
 	
-	public String clienteDelete(){
+	public String clienteDelete(Cliente cliente){
 		
 		FacesContext context = FacesContext.getCurrentInstance();
 		boolean success = false;
@@ -169,27 +172,31 @@ public class FightClubBean {
 		try {
 			success = clienteDAO.delete(cliente);
 			
+			listaCliente = clienteDAO.getAll();
+			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 			
 			FacesMessage exceptionMessage = new FacesMessage("Erro interno: Classe não encontrada.");
-			context.addMessage(null, exceptionMessage);
+			context.addMessage("FormularioClienteInterno:msgCliente", exceptionMessage);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			
 			FacesMessage exceptionMessage = new FacesMessage("Erro interno de SQL.");
-			context.addMessage(null, exceptionMessage);
+			context.addMessage("FormularioClienteInterno:msgCliente", exceptionMessage);
 		}
 		
 		if(success){
 			FacesMessage successMessage = new FacesMessage("Cliente excluído com sucesso!");
-			context.addMessage(null, successMessage);
+			context.addMessage("FormularioClienteInterno:msgCliente", successMessage);
 			
 		}else{
 			FacesMessage errorMessage = new FacesMessage("Não foi possível excluir o cliente.");
-			context.addMessage(null, errorMessage);
+			context.addMessage("FormularioClienteInterno:msgCliente", errorMessage);
 		}
+		
+		
 		
 		return null;
 		
@@ -206,22 +213,22 @@ public class FightClubBean {
 			e.printStackTrace();
 			
 			FacesMessage exceptionMessage = new FacesMessage("Erro interno: Classe não encontrada.");
-			context.addMessage(null, exceptionMessage);
+			context.addMessage("FormularioAdminInterno:msgAdmin", exceptionMessage);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			
 			FacesMessage exceptionMessage = new FacesMessage("Erro interno de SQL.");
-			context.addMessage(null, exceptionMessage);
+			context.addMessage("FormularioAdminInterno:msgAdmin", exceptionMessage);
 		}
 		
 		if(admin != null){
 			FacesMessage successMessage = new FacesMessage("Administrador cadastrado com sucesso!");
-			context.addMessage(null, successMessage);
+			context.addMessage("FormularioAdminInterno:msgAdmin", successMessage);
 			
 		}else{
 			FacesMessage errorMessage = new FacesMessage("Não foi possível cadastrar o administrador.");
-			context.addMessage(null, errorMessage);
+			context.addMessage("FormularioAdminInterno:msgAdmin", errorMessage);
 		}
 		
 		admin = new Administrador();
@@ -236,7 +243,11 @@ public class FightClubBean {
 		boolean success = false;
 		
 		try {
-			success = admDAO.update(admin);
+			for (Administrador admin : listaAdmin) {
+				success = admDAO.update(admin);
+				admin.setEditable(false);
+			}			
+			
 			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -264,13 +275,15 @@ public class FightClubBean {
 		
 	}
 	
-	public String adminDelete(){
+	public String adminDelete(Administrador admin){
 		
 		FacesContext context = FacesContext.getCurrentInstance();
 		boolean success = false;
 		
 		try {
 			success = admDAO.delete(admin);
+			
+			listaAdmin = admDAO.getAll();
 			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -296,5 +309,75 @@ public class FightClubBean {
 		
 		return null;
 		
+	}
+
+	public String logar()
+	{
+		try {
+			
+			admin = admDAO.isValid(admin);	
+			
+			if (admin != null) {
+				
+				listaCliente = clienteDAO.getAll();
+				
+				return "home";
+				
+			} else {
+				
+				admin = new Administrador();
+				
+				FacesMessage exceptionMessage = new FacesMessage("Usuário ou Senha Inválido.");
+				FacesContext.getCurrentInstance().addMessage("FormularioLogin:msgLogin", exceptionMessage);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
+	public String habilitarEdicaoCliente(Cliente cliente){
+		try {
+			cliente.setEditable(true);
+			return "index";			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}	
+		return null;
+	}
+	
+	public String habilitarEdicaoAdmin(Administrador admin){
+		try {
+			admin.setEditable(true);
+			return "administradores";			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}	
+		return null;
+	}
+	
+	public String logout()
+	{
+		admin = new Administrador();
+				
+		return "index";
+	}
+
+	public String listarAdministradores()
+	{
+		try {
+			
+			listaAdmin = admDAO.getAll();
+			
+			return "administradores";
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

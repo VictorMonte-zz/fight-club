@@ -92,6 +92,47 @@ public class AdministradorDAO implements GenericDAO<Administrador> {
 			}
 		}
 	}
+	
+	public Administrador isValid(Administrador admin) throws ClassNotFoundException,
+	SQLException {
+		Connection dbConnection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		
+		try {
+		
+			dbConnection = ConnectionFactory.getConnection();
+		
+			String sql = "SELECT * FROM fightclub.ADMINISTRADOR "
+					+ "WHERE LOGIN = ? AND SENHA = ?";
+		
+			preparedStatement = dbConnection.prepareStatement(sql);
+			preparedStatement.setString(1, admin.getLogin());
+			preparedStatement.setString(2, admin.getSenha());
+		
+			rs = preparedStatement.executeQuery();
+		
+			if (rs.next()) {
+				admin = new Administrador();
+				admin.setLogin(rs.getString("LOGIN"));
+				admin.setSenha(rs.getString("SENHA"));
+			}
+			else
+			{
+				admin = null;
+			}
+		
+			return admin;
+		
+		}finally {
+			if (preparedStatement != null) {
+				preparedStatement.close();
+			}
+			if (dbConnection != null) {
+				dbConnection.close();
+			}
+		}
+}
 
 	@Override
 	public Administrador save(Administrador admin)

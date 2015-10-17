@@ -30,7 +30,10 @@
 			<a class="navbar-brand" href="index.jsf">FightClub</a>			
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">
-			<h:form styleClass="navbar-form navbar-right">
+			<h:form id="FormularioLogin" styleClass="navbar-form navbar-right">
+				<div class="form-group">
+					<h:messages id="msgLogin" style="color:red"></h:messages>
+				</div>				
 				<div class="form-group">
 					<h:inputText styleClass="form-control" a:placeholder="usuário"
 						value="#{fightClubBean.admin.login}"></h:inputText>
@@ -68,27 +71,21 @@
 		<!-- Example row of columns -->
 		<div class="row">
 			<div class="col-md-4">
-				<h2>Heading</h2>
-				<p>Donec id elit non mi porta gravida at eget metus. Fusce
-					dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh,
-					ut fermentum massa justo sit amet risus. Etiam porta sem malesuada
-					magna mollis euismod. Donec sed odio dui.</p>
+			<!-- <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140"> -->
+				<h2>Plantas</h2>
+				<p>Plantas animar qualquer espaço , adicionando uma sensação de leveza e vida. Isso é - é claro - quando você não se esqueça de regá-las , e eles murcham e morrem. Eu sou muito ruim em lembrar-se de plantas aquáticas .</p>
 
 			</div>
 			<div class="col-md-4">
-				<h2>Heading</h2>
-				<p>Donec id elit non mi porta gravida at eget metus. Fusce
-					dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh,
-					ut fermentum massa justo sit amet risus. Etiam porta sem malesuada
-					magna mollis euismod. Donec sed odio dui.</p>
+			<!-- <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140"> -->
+				<h2>Arduíno</h2>
+				<p>É por isso que eu construí esta planta auto -molhando para fazer isso por mim. Usando um sensor de solo , e uma bomba de água controlado por Arduino , eu criei um sistema que nunca vai esquecer de fazê-lo .</p>
 
 			</div>
 			<div class="col-md-4">
-				<h2>Heading</h2>
-				<p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in,
-					egestas eget quam. Vestibulum id ligula porta felis euismod semper.
-					Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum
-					nibh, ut fermentum massa justo sit amet risus.</p>
+			<!-- <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140"> -->
+				<h2>Automatização</h2>
+				<p>Em vez de lembrar para regar minhas plantas quando o solo fica seca , eu só tenho que lembrar de vez em quando encher o reservatório de água . Desta forma , eu diminuíram a minha obrigação de essas plantas e colocá-lo fora para uma data muito posterior .</p>
 
 			</div>
 		</div>

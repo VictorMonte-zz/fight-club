@@ -6,6 +6,15 @@ public class Cliente {
 	private String email;
 	private String telefone;
 	private String empresa;
+	private boolean editable;
+
+	public boolean isEditable() {
+		return editable;
+	}
+
+	public void setEditable(boolean editable) {
+		this.editable = editable;
+	}
 
 	public int getId() {
 		return id;

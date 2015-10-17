@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<head>
+<meta charset="utf-8"></meta>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<title>FightClub</title>
+
+<!-- Bootstrap -->
+<link href="css/bootstrap.min.css" rel="stylesheet"></link>
+</head>
+<body>
+	<div class="container">
+
+		<!-- Static navbar -->
+		<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+					aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">FightClub - Área Logada</a>
+			</div>
+			<div id="navbar" class="navbar-collapse collapse">
+				<h:form>
+					<ul class="nav navbar-nav">
+						<li>							
+							<h:commandLink value="Clientes" action="#{fightClubBean.logar}"></h:commandLink>
+						</li>
+						<li class="active">
+							<h:commandLink value="Administradores" action="#{fightClubBean.listarAdministradores}"></h:commandLink>
+						</li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li class="active">						
+							<h:commandLink action="#{fightClubBean.logout}" value="Logout"></h:commandLink>						
+						</li>
+					</ul>
+				</h:form>
+			</div>
+			<!--/.nav-collapse -->
+		</div>
+		<!--/.container-fluid --> </nav>
+
+		<!-- Main component for a primary marketing message or call to action -->
+		<div class="jumbotron">
+			<h1>Bem vindo, #{fightClubBean.admin.login}!</h1>
+			<br />
+			<h4>Abaixo todos os administradores cadastrados.</h4>
+			<div class="panel panel-default">
+				<div class="panel panel-heading">Lista de Clientes</div>
+				<div class="panel panel-body">
+					<h:form id="FormularioAdminInterno">
+						<h:dataTable value="#{fightClubBean.listaAdmin}" var="admin" styleClass="table table-bordered"
+						rendered="#{not empty fightClubBean.listaAdmin}">													
+							<h:column>
+								<f:facet name="header">Login</f:facet>										
+								<h:inputText value="#{admin.login}" rendered="#{admin.editable}" />    				
+								<h:outputText value="#{admin.login}" rendered="#{not admin.editable}" />
+							</h:column>	
+							<h:column>
+								<f:facet name="header">Senha</f:facet>										
+								<h:inputText value="#{admin.senha}" rendered="#{admin.editable}" />    				
+								<h:outputText value="#{admin.senha}" rendered="#{not admin.editable}" />
+							</h:column>												
+							<h:column>
+								<f:facet name="header">Editar</f:facet>    				
+								<h:commandLink value="Editar" action="#{fightClubBean.habilitarEdicaoAdmin(admin)}"></h:commandLink>
+							</h:column>		
+							<h:column>
+								<f:facet name="header">Excluir</f:facet>    				
+								<h:commandLink value="Excluir" action="#{fightClubBean.adminDelete(admin)}"></h:commandLink>
+							</h:column>
+						</h:dataTable>
+						
+						<div class="box-footer clearfix">
+							<div class="pull-right">
+								<h:commandButton value="Salvar" action="#{fightClubBean.adminUpdate}" styleClass="btn btn-primary"
+									rendered="#{not empty fightClubBean.listaAdmin}"></h:commandButton>
+							</div>							
+						</div>
+						
+						<c:if test="#{empty fightClubBean.listaAdmin}">
+							<div class="alert alert-warning" role="alert">Nenhum admin cadastrado!</div>	
+						</c:if>	
+						
+						
+						<h:messages id="msgAdmin" />
+						
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	<!-- /container -->
+
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="js/bootstrap.min.js"></script>
+</body>
+</html>
