@@ -30,7 +30,7 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">FightClub - ¡rea Logada</a>
+				<a class="navbar-brand" href="#">FightClub - √Årea Logada</a>
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<h:form>
@@ -109,7 +109,7 @@
 									</div>								
 								</div>
 								<div class="col-md-8">
-									<h:inputText styleClass="form-control" value="#{fightClubBean.adminNovo.login}"></h:inputText>
+									<h:inputText styleClass="form-control" value="#{fightClubBean.adminNovo.login}" requiredMessage="Digite o login do administrador."></h:inputText>
 								</div>
 								<div class="col-md-1">								
 									
@@ -125,7 +125,7 @@
 									</div>								
 								</div>
 								<div class="col-md-8">
-									<h:inputSecret styleClass="form-control" value="#{fightClubBean.adminNovo.senha}"></h:inputSecret>
+									<h:inputSecret styleClass="form-control" value="#{fightClubBean.adminNovo.senha}" requiredMessage="Digite a senha do administrador."></h:inputSecret>
 								</div>
 								<div class="col-md-1">								
 									
