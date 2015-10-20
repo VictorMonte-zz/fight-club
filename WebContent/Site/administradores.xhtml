@@ -64,9 +64,8 @@
 						<h:dataTable value="#{fightClubBean.listaAdmin}" var="admin" styleClass="table table-bordered"
 						rendered="#{not empty fightClubBean.listaAdmin}">													
 							<h:column>
-								<f:facet name="header">Login</f:facet>										
-								<h:inputText value="#{admin.login}" rendered="#{admin.editable}" />    				
-								<h:outputText value="#{admin.login}" rendered="#{not admin.editable}" />
+								<f:facet name="header">Login</f:facet>
+								<h:outputText value="#{admin.login}"/>
 							</h:column>	
 							<h:column>
 								<f:facet name="header">Senha</f:facet>										

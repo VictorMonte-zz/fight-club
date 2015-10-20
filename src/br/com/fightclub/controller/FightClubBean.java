@@ -355,7 +355,7 @@ public class FightClubBean {
 	public String habilitarEdicaoCliente(Cliente cliente){
 		try {
 			cliente.setEditable(true);
-			return "index";			
+			return "home";			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
