@@ -55,25 +55,25 @@ CREATE PROCEDURE clienteInsert
 )
 BEGIN
     
-    /* exceÁıes que ser„o retornadas */
+    /* exce√ß√µes que ser√£o retornadas */
     DECLARE nomeInvalido CONDITION FOR SQLSTATE '45001';
     DECLARE emailInvalido CONDITION FOR SQLSTATE '45002';
     DECLARE telefoneInvalido CONDITION FOR SQLSTATE '45003';
     
-    /* verifica conte˙do de campos NOT NULL */
+    /* verifica conte√∫do de campos NOT NULL */
     IF clienteNome IS NULL OR clienteNome = '' THEN
 		SIGNAL SQLSTATE '45001'
-			SET MESSAGE_TEXT = 'Nome do cliente n„o pode ser nulo.';
+			SET MESSAGE_TEXT = 'Nome do cliente n√£o pode ser nulo.';
 	END IF;
     
     IF clienteEmail IS NULL OR clienteEmail = '' THEN
 		SIGNAL SQLSTATE '45002'
-			SET MESSAGE_TEXT = 'E-mail do cliente n„o pode ser nulo.';
+			SET MESSAGE_TEXT = 'E-mail do cliente n√£o pode ser nulo.';
 	END IF;
     
     IF clienteTelefone IS NULL OR clienteTelefone = '' THEN
 		SIGNAL SQLSTATE '45003'
-			SET MESSAGE_TEXT = 'Telefone do cliente n„o pode ser nulo.';
+			SET MESSAGE_TEXT = 'Telefone do cliente n√£o pode ser nulo.';
 	END IF;
     
     /* insert principal */
@@ -108,20 +108,20 @@ CREATE PROCEDURE clienteUpdate
 )
 BEGIN
 	
-	/* vari·vel para checagem de existÍncia do registro */
+	/* vari√°vel para checagem de exist√™ncia do registro */
     DECLARE clienteCount TINYINT(1);
     
-    /* exceÁıes que ser„o retornadas */
+    /* exce√ß√µes que ser√£o retornadas */
     DECLARE idInvalido CONDITION FOR SQLSTATE '45000';
     DECLARE nomeInvalido CONDITION FOR SQLSTATE '45001';
     DECLARE emailInvalido CONDITION FOR SQLSTATE '45002';
     DECLARE telefoneInvalido CONDITION FOR SQLSTATE '45003';
     DECLARE registroInexistente CONDITION FOR SQLSTATE '45100';
     
-    /* verifica se o id recebido È valido */
+    /* verifica se o id recebido √© valido */
     IF clienteId <= 0 THEN
 		SIGNAL SQLSTATE '45000'
-			SET MESSAGE_TEXT = 'ID do cliente inv·lido.';
+			SET MESSAGE_TEXT = 'ID do cliente inv√°lido.';
 	END IF;
 	
     /* verifica se o registro existe */
@@ -131,23 +131,23 @@ BEGIN
     
     IF clienteCount = 0 THEN
 		SIGNAL SQLSTATE '45100'
-			SET MESSAGE_TEXT = 'Cliente n„o encontrado.';
+			SET MESSAGE_TEXT = 'Cliente n√£o encontrado.';
 	END IF;
     
-    /* verifica conte˙do de campos NOT NULL */
+    /* verifica conte√∫do de campos NOT NULL */
     IF clienteNome IS NULL OR clienteNome = '' THEN
 		SIGNAL SQLSTATE '45001'
-			SET MESSAGE_TEXT = 'Nome do cliente n„o pode ser nulo.';
+			SET MESSAGE_TEXT = 'Nome do cliente n√£o pode ser nulo.';
 	END IF;
     
     IF clienteEmail IS NULL OR clienteEmail = '' THEN
 		SIGNAL SQLSTATE '45002'
-			SET MESSAGE_TEXT = 'E-mail do cliente n„o pode ser nulo.';
+			SET MESSAGE_TEXT = 'E-mail do cliente n√£o pode ser nulo.';
 	END IF;
     
     IF clienteTelefone IS NULL OR clienteTelefone = '' THEN
 		SIGNAL SQLSTATE '45003'
-			SET MESSAGE_TEXT = 'Telefone do cliente n„o pode ser nulo.';
+			SET MESSAGE_TEXT = 'Telefone do cliente n√£o pode ser nulo.';
 	END IF;
     
     /* update principal */
@@ -180,17 +180,17 @@ CREATE PROCEDURE clienteDelete
 )
 BEGIN
 	
-    /* vari·vel para checagem de existÍncia do registro */
+    /* vari√°vel para checagem de exist√™ncia do registro */
     DECLARE clienteCount TINYINT(1);
     
-    /* exceÁıes que ser„o retornadas */
+    /* exce√ß√µes que ser√£o retornadas */
     DECLARE idInvalido CONDITION FOR SQLSTATE '45000';
     DECLARE registroInexistente CONDITION FOR SQLSTATE '45100';
     
-    /* verifica se o id recebido È valido */
+    /* verifica se o id recebido √© valido */
     IF clienteId <= 0 THEN
 		SIGNAL SQLSTATE '45000'
-			SET MESSAGE_TEXT = 'ID do cliente inv·lido.';
+			SET MESSAGE_TEXT = 'ID do cliente inv√°lido.';
 	END IF;
 	
     /* verifica se o registro existe */
@@ -200,7 +200,7 @@ BEGIN
     
     IF clienteCount = 0 THEN
 		SIGNAL SQLSTATE '45100'
-			SET MESSAGE_TEXT = 'Cliente n„o encontrado.';
+			SET MESSAGE_TEXT = 'Cliente n√£o encontrado.';
 	END IF;
     
     /* delete principal */
@@ -232,23 +232,23 @@ CREATE PROCEDURE administradorInsert
 )
 BEGIN
 	
-	/* vari·vel para checagem de existÍncia do registro */
+	/* vari√°vel para checagem de exist√™ncia do registro */
     DECLARE adminCount TINYINT(1);
     
-	/* exceÁıes que ser„o retornadas */
+	/* exce√ß√µes que ser√£o retornadas */
     DECLARE loginInvalido CONDITION FOR SQLSTATE '45001';
     DECLARE senhaInvalido CONDITION FOR SQLSTATE '45002';
     DECLARE chaveDuplicada CONDITION FOR SQLSTATE '45101';
     
-    /* verifica conte˙do de campos NOT NULL */
+    /* verifica conte√∫do de campos NOT NULL */
     IF adminLogin IS NULL OR adminLogin = '' THEN
 		SIGNAL SQLSTATE '45001'
-			SET MESSAGE_TEXT = 'Login do Administrador n„o pode ser nulo.';
+			SET MESSAGE_TEXT = 'Login do Administrador n√£o pode ser nulo.';
 	END IF;
     
     IF adminSenha IS NULL OR adminSenha = '' THEN
 		SIGNAL SQLSTATE '45002'
-			SET MESSAGE_TEXT = 'Senha do Administrador n„o pode ser nulo.';
+			SET MESSAGE_TEXT = 'Senha do Administrador n√£o pode ser nulo.';
 	END IF;
     
     /* verifica chave duplicada */
@@ -258,7 +258,7 @@ BEGIN
     
     IF adminCount = 1 THEN
 		SIGNAL SQLSTATE '45101'
-			SET MESSAGE_TEXT = 'J· existe um Administrador com este login!';
+			SET MESSAGE_TEXT = 'J√° existe um Administrador com este login!';
 	END IF;
     
     /* insert principal */
@@ -288,22 +288,22 @@ CREATE PROCEDURE administradorUpdate
 )
 BEGIN
     
-	/* vari·vel para checagem de existÍncia do registro */
+	/* vari√°vel para checagem de exist√™ncia do registro */
     DECLARE adminCount TINYINT(1);
     
-    /* exceÁıes que ser„o retornadas */
+    /* exce√ß√µes que ser√£o retornadas */
     DECLARE loginInvalido CONDITION FOR SQLSTATE '45000';
     DECLARE senhaInvalido CONDITION FOR SQLSTATE '45001';
     
-    /* verifica conte˙do de campos NOT NULL */
+    /* verifica conte√∫do de campos NOT NULL */
     IF adminLogin IS NULL OR adminLogin = '' THEN
 		SIGNAL SQLSTATE '45000'
-			SET MESSAGE_TEXT = 'Login do Administrador n„o pode ser nulo.';
+			SET MESSAGE_TEXT = 'Login do Administrador n√£o pode ser nulo.';
 	END IF;
     
     IF adminSenha IS NULL OR adminSenha = '' THEN
 		SIGNAL SQLSTATE '45001'
-			SET MESSAGE_TEXT = 'Senha do Administrador n„o pode ser nulo.';
+			SET MESSAGE_TEXT = 'Senha do Administrador n√£o pode ser nulo.';
 	END IF;
 	
     /* verifica se o registro existe */
@@ -313,7 +313,7 @@ BEGIN
     
     IF adminCount = 0 THEN
 		SIGNAL SQLSTATE '45100'
-			SET MESSAGE_TEXT = 'Administrador n„o encontrado.';
+			SET MESSAGE_TEXT = 'Administrador n√£o encontrado.';
 	END IF;
     
     /* update principal */
@@ -343,17 +343,17 @@ CREATE PROCEDURE administradorDelete
 )
 BEGIN
 
-	/* vari·vel para checagem de existÍncia do registro */
+	/* vari√°vel para checagem de exist√™ncia do registro */
     DECLARE adminCount TINYINT(1);
     
-    /* exceÁıes que ser„o retornadas */
+    /* exce√ß√µes que ser√£o retornadas */
     DECLARE idInvalido CONDITION FOR SQLSTATE '45000';
     DECLARE registroInexistente CONDITION FOR SQLSTATE '45100';
     
-    /* verifica se o id recebido È valido */
+    /* verifica se o id recebido √© valido */
     IF adminLogin IS NULL OR adminLogin = '' THEN
 		SIGNAL SQLSTATE '45000'
-			SET MESSAGE_TEXT = 'Login do Administrador inv·lido.';
+			SET MESSAGE_TEXT = 'Login do Administrador inv√°lido.';
 	END IF;
 	
     /* verifica se o registro existe */
@@ -363,7 +363,7 @@ BEGIN
     
     IF adminCount = 0 THEN
 		SIGNAL SQLSTATE '45100'
-			SET MESSAGE_TEXT = 'Administrador n„o encontrado.';
+			SET MESSAGE_TEXT = 'Administrador n√£o encontrado.';
 	END IF;
     
     /* delete principal */
@@ -381,3 +381,8 @@ BEGIN
 END $$
 
 DELIMITER ;
+
+/* Insert Admin */
+INSERT INTO fightclub.ADMINISTRADOR VALUES ('admin', 'admin');
+
+COMMIT;
