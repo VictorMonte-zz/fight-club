@@ -35,7 +35,7 @@
 					<h:messages id="msgLogin" style="color:red"></h:messages>
 				</div>				
 				<div class="form-group">
-					<h:inputText styleClass="form-control" a:placeholder="usu·rio"
+					<h:inputText styleClass="form-control" a:placeholder="usu√°rio"
 						value="#{fightClubBean.admin.login}"></h:inputText>
 				</div>
 				<div class="form-group">
@@ -79,7 +79,7 @@
 					<!--  -->
 					<div class="row">
 						<div class="col-md-12 col-md-offset-2">
-							<h4>Por favor, use o formul·rio abaixo para registrar-se.</h4>
+							<h4>Por favor, use o formul√°rio abaixo para registrar-se.</h4>
 						</div>
 					</div>
 					
@@ -93,7 +93,7 @@
 							</div>						
 						</div>
 						<div class="col-md-9">
-							<h:inputText styleClass="form-control" required="true" value="#{fightClubBean.cliente.nome}"></h:inputText>						
+							<h:inputText styleClass="form-control" required="true" value="#{fightClubBean.cliente.nome}" requiredMessage="Por favor, digite seu nome completo."></h:inputText>						
 						</div>
 					</div>
 					
@@ -106,7 +106,7 @@
 							</div>						
 						</div>
 						<div class="col-md-9">
-							<h:inputText styleClass="form-control" required="true" value="#{fightClubBean.cliente.email}"></h:inputText>
+							<h:inputText styleClass="form-control" required="true" value="#{fightClubBean.cliente.email}" requiredMessage="Por favor, digite seu e-mail."></h:inputText>
 						</div>
 					</div>
 					
@@ -119,7 +119,7 @@
 							</div>						
 						</div>
 						<div class="col-md-9">
-							<h:inputText styleClass="form-control" required="true" value="#{fightClubBean.cliente.telefone}"></h:inputText>
+							<h:inputText styleClass="form-control" required="true" value="#{fightClubBean.cliente.telefone}"requiredMessage="Por favor, digite seu n√∫mero de telefone."></h:inputText>
 						</div>
 					</div>
 					
