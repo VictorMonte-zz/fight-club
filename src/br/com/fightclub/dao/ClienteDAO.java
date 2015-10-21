@@ -143,6 +143,7 @@ public class ClienteDAO implements GenericDAO<Cliente> {
 		
 		Connection dbConnection = null;
 		CallableStatement callableStatement = null;
+		boolean success = false;
 		
 		try{
 			
@@ -159,16 +160,16 @@ public class ClienteDAO implements GenericDAO<Cliente> {
 			
 			callableStatement.execute();
 			
-			return true;
+			success = true;
 			
 		}catch(SQLException e){
 			String erro = e.getMessage();
 			System.out.println(erro);
-			return false;
+			success = false;
 			
 		}catch(Exception e){
 			e.printStackTrace();
-			return false;
+			success = false;
 			
 		}finally{
 			if (callableStatement != null) {
@@ -178,6 +179,8 @@ public class ClienteDAO implements GenericDAO<Cliente> {
 				dbConnection.close();
 			}
 		}
+		
+		return success;
 		
 	}
 

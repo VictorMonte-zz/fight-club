@@ -30,7 +30,7 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">FightClub - √Årea Logada</a>
+				<a class="navbar-brand" href="#">FightClub - ¡Årea Logada</a>
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<h:form>
@@ -84,16 +84,20 @@
 						
 						<div class="box-footer clearfix">
 							<div class="pull-right">
-								<h:commandButton value="Salvar" action="#{fightClubBean.adminUpdate}" styleClass="btn btn-primary"
-									rendered="#{not empty fightClubBean.listaAdmin}"></h:commandButton>
+								<h:commandButton
+								value="Salvar"
+								action="#{fightClubBean.adminUpdate}"
+								styleClass="btn btn-primary"
+								rendered="#{not empty fightClubBean.listaAdmin and fightClubBean.editando}" />
 							</div>							
 						</div>
 						
 						<c:if test="#{empty fightClubBean.listaAdmin}">
 							<div class="alert alert-warning" role="alert">Nenhum admin cadastrado!</div>	
-						</c:if>										
+						</c:if>
 						
-						<h:messages id="msgAdmin" />						
+						<h:messages id="msgAdmin" />
+											
 					</h:form>
 				</div>
 				</div>
@@ -109,7 +113,10 @@
 									</div>								
 								</div>
 								<div class="col-md-8">
-									<h:inputText styleClass="form-control" value="#{fightClubBean.adminNovo.login}" requiredMessage="Digite o login do administrador."></h:inputText>
+									<h:inputText styleClass="form-control"
+										value="#{fightClubBean.adminNovo.login}"
+										required="true"
+										requiredMessage="Digite o login do administrador." />
 								</div>
 								<div class="col-md-1">								
 									
@@ -125,7 +132,10 @@
 									</div>								
 								</div>
 								<div class="col-md-8">
-									<h:inputSecret styleClass="form-control" value="#{fightClubBean.adminNovo.senha}" requiredMessage="Digite a senha do administrador."></h:inputSecret>
+									<h:inputSecret styleClass="form-control"
+										value="#{fightClubBean.adminNovo.senha}"
+										required="true"
+										requiredMessage="Digite a senha do administrador."></h:inputSecret>
 								</div>
 								<div class="col-md-1">								
 									
@@ -140,13 +150,14 @@
 								</div>
 								<div class="col-md-6">
 									<div class="pull-right">
-										<h:commandButton value="Cadastrar" action="#{fightClubBean.adminInsert}"
-											styleClass="btn btn-primary" ></h:commandButton>
+										<h:commandButton value="Cadastrar"
+											action="#{fightClubBean.adminInsert}"
+											styleClass="btn btn-primary" />
 									</div>						
 								</div>								
 							</div>
 							
-							<h:messages id="msgAdminCad" />
+							<!-- <h:messages id="msgAdminCad" /> -->
 												
 						</h:form>
 					</div>

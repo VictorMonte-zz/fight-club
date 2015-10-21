@@ -32,11 +32,11 @@
 		<div id="navbar" class="navbar-collapse collapse">
 			<h:form id="FormularioLogin" styleClass="navbar-form navbar-right">
 				<div class="form-group">
-					<h:messages id="msgLogin" style="color:red"></h:messages>
-				</div>				
+					<h:message for="msgLogin" style="color:red" />
+				</div>
 				<div class="form-group">
-					<h:inputText styleClass="form-control" a:placeholder="usu√°rio"
-						value="#{fightClubBean.admin.login}"></h:inputText>
+					<h:inputText styleClass="form-control" a:placeholder="usu·rio"
+						value="#{fightClubBean.admin.login}" id="msgLogin"></h:inputText>
 				</div>
 				<div class="form-group">
 					<h:inputSecret styleClass="form-control" a:placeholder="senha"
@@ -79,13 +79,43 @@
 					<!--  -->
 					<div class="row">
 						<div class="col-md-12 col-md-offset-2">
-							<h4>Por favor, use o formul√°rio abaixo para registrar-se.</h4>
+							<h4>Por favor, use o formul·rio abaixo para registrar-se.</h4>
 						</div>
 					</div>
 					
 					<hr />
-	
-					<!--  -->
+					
+					<!-- MENSAGENS DE ERRO -->
+					<div class="row">
+						<div class="col-md-12 col-md-offset-4">
+							<h:message for="msgCliente" />
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-12 col-md-offset-4">
+							<h:message for="msgClienteNome" />
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-12 col-md-offset-4">
+							<h:message for="msgClienteEmail" />
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-12 col-md-offset-4">
+							<h:message for="msgClienteTelefone" />
+						</div>
+					</div>
+					
+					<br/>
+					
+					<!-- CAMPOS DE ENTRADA DE DADOS -->
+					
+					<h:inputHidden id="msgCliente" />
+					
 					<div class="row">
 						<div class="col-md-3">	
 							<div class="pull-right">					
@@ -93,7 +123,11 @@
 							</div>						
 						</div>
 						<div class="col-md-9">
-							<h:inputText styleClass="form-control" required="true" value="#{fightClubBean.cliente.nome}" requiredMessage="Por favor, digite seu nome completo."></h:inputText>						
+							<h:inputText styleClass="form-control"
+							id="msgClienteNome"
+							required="true"
+							value="#{fightClubBean.cliente.nome}"
+							requiredMessage="Por favor, digite seu nome completo."></h:inputText>						
 						</div>
 					</div>
 					
@@ -106,7 +140,10 @@
 							</div>						
 						</div>
 						<div class="col-md-9">
-							<h:inputText styleClass="form-control" required="true" value="#{fightClubBean.cliente.email}" requiredMessage="Por favor, digite seu e-mail."></h:inputText>
+							<h:inputText styleClass="form-control"
+							id="msgClienteEmail"
+							required="true" value="#{fightClubBean.cliente.email}"
+							requiredMessage="Por favor, digite seu e-mail."></h:inputText>
 						</div>
 					</div>
 					
@@ -119,7 +156,11 @@
 							</div>						
 						</div>
 						<div class="col-md-9">
-							<h:inputText styleClass="form-control" required="true" value="#{fightClubBean.cliente.telefone}"requiredMessage="Por favor, digite seu n√∫mero de telefone."></h:inputText>
+							<h:inputText styleClass="form-control"
+							id="msgClienteTelefone"
+							required="true"
+							value="#{fightClubBean.cliente.telefone}"
+							requiredMessage="Por favor, digite seu n˙mero de telefone."></h:inputText>
 						</div>
 					</div>
 					
@@ -147,12 +188,6 @@
 						</div>
 					</div>
 					
-					<div class="row">
-						<div class="col-md-12 col-md-offset-4">
-							<h:messages id="msgCliente" />
-						</div>
-					</div>
-				
 				</h:form>
 
 			</div>

@@ -155,9 +155,11 @@ public class AdministradorDAO implements GenericDAO<Administrador> {
 		}catch(SQLException e){
 			String erro = e.getMessage();
 			System.out.println(erro);
+			admin = null;
 			
 		}catch(Exception e){
 			e.printStackTrace();
+			admin = null;
 			
 		}finally{
 			if (callableStatement != null) {

@@ -18,6 +18,9 @@ import br.com.fightclub.model.Cliente;
 @SessionScoped
 public class FightClubBean {
 	
+	// variables
+	private boolean editando;
+	
 	// objects
 	private Cliente cliente;
 	private Administrador admin;
@@ -32,6 +35,7 @@ public class FightClubBean {
 	private AdministradorDAO admDAO;
 
 	public FightClubBean() {
+		this.editando = false;
 		this.cliente = new Cliente();
 		this.admin = new Administrador();
 		this.adminNovo = new Administrador();
@@ -42,8 +46,16 @@ public class FightClubBean {
 		this.listaAdmin = new ArrayList<Administrador>();
 		
 	}	
-	
-	// getters & setters
+
+	// getters & setters	
+	public boolean isEditando() {
+		return editando;
+	}
+
+	public void setEditando(boolean editando) {
+		this.editando = editando;
+	}
+
 	public Cliente getCliente() {
 		return cliente;
 	}
@@ -100,6 +112,20 @@ public class FightClubBean {
 	public void setAdminNovo(Administrador adminNovo) {
 		this.adminNovo = adminNovo;
 	}
+	
+	public void disableEditing(){
+		
+		this.editando = false;
+		
+		for(Cliente c : listaCliente){
+			c.setEditable(false);
+		}
+		
+		for(Administrador a : listaAdmin){
+			a.setEditable(false);
+		}
+		
+	}
 
 	// methods
 	public String clienteInsert(){
@@ -144,9 +170,14 @@ public class FightClubBean {
 		
 		try {
 			for (Cliente cliente : listaCliente) {
-				success = clienteDAO.update(cliente);
-				cliente.setEditable(false);
+				if(cliente.isEditable()){
+					success = clienteDAO.update(cliente);
+					cliente.setEditable(false);
+				}
 			}
+			
+			listaCliente = clienteDAO.getAll();
+			this.editando = false;
 			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -178,6 +209,8 @@ public class FightClubBean {
 		
 		FacesContext context = FacesContext.getCurrentInstance();
 		boolean success = false;
+		
+		this.disableEditing();
 		
 		try {
 			success = clienteDAO.delete(cliente);
@@ -216,12 +249,12 @@ public class FightClubBean {
 		
 		FacesContext context = FacesContext.getCurrentInstance();
 		
+		this.disableEditing();
+		
 		try {
 			adminNovo = admDAO.save(adminNovo);
 			
 			listaAdmin = admDAO.getAll();
-			
-			adminNovo = new Administrador();
 			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -236,7 +269,7 @@ public class FightClubBean {
 			context.addMessage("FormularioAdminCadastro:msgAdminCad", exceptionMessage);
 		}
 		
-		if(admin != null){
+		if(adminNovo != null){
 			FacesMessage successMessage = new FacesMessage("Administrador cadastrado com sucesso!");
 			context.addMessage("FormularioAdminCadastro:msgAdminCad", successMessage);
 			
@@ -245,7 +278,9 @@ public class FightClubBean {
 			context.addMessage("FormularioAdminCadastro:msgAdminCad", errorMessage);
 		}
 		
-		admin = new Administrador();
+		adminNovo = new Administrador();
+		
+		//admin = new Administrador();
 		
 		return null;
 		
@@ -258,10 +293,14 @@ public class FightClubBean {
 		
 		try {
 			for (Administrador admin : listaAdmin) {
-				success = admDAO.update(admin);
-				admin.setEditable(false);
-			}			
+				if(admin.isEditable()){
+					success = admDAO.update(admin);
+					admin.setEditable(false);
+				}
+			}
 			
+			listaAdmin = admDAO.getAll();
+			this.editando = false;
 			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -293,6 +332,15 @@ public class FightClubBean {
 		
 		FacesContext context = FacesContext.getCurrentInstance();
 		boolean success = false;
+		
+		this.disableEditing();
+		
+		if(admin.getLogin().equals(this.admin.getLogin())){
+			FacesMessage errorMessage = new FacesMessage("Impossível excluir seu próprio usuário!");
+			context.addMessage("FormularioAdminInterno:msgAdmin", errorMessage);
+			
+			return null;
+		}
 		
 		try {
 			success = admDAO.delete(admin);
@@ -326,9 +374,11 @@ public class FightClubBean {
 	}
 
 	public String logar()
-	{
+	{	
+		
+		this.disableEditing();
+		
 		try {
-			
 			admin = admDAO.isValid(admin);	
 			
 			if (admin != null) {
@@ -355,6 +405,8 @@ public class FightClubBean {
 	public String habilitarEdicaoCliente(Cliente cliente){
 		try {
 			cliente.setEditable(true);
+			this.editando = true;
+			
 			return "home";			
 			
 		} catch (Exception e) {
@@ -366,6 +418,8 @@ public class FightClubBean {
 	public String habilitarEdicaoAdmin(Administrador admin){
 		try {
 			admin.setEditable(true);
+			this.editando = true;
+			
 			return "administradores";			
 			
 		} catch (Exception e) {
@@ -377,6 +431,7 @@ public class FightClubBean {
 	public String logout()
 	{
 		admin = new Administrador();
+		this.disableEditing();
 				
 		return "index";
 	}
@@ -384,6 +439,8 @@ public class FightClubBean {
 	public String listarAdministradores()
 	{
 		try {
+			
+			this.disableEditing();
 			
 			listaAdmin = admDAO.getAll();
 			

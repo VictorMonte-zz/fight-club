@@ -100,8 +100,11 @@
 						
 						<div class="box-footer clearfix">
 							<div class="pull-right">
-								<h:commandButton value="Salvar" action="#{fightClubBean.clienteUpdate}" styleClass="btn btn-primary"
-									rendered="#{not empty fightClubBean.listaCliente}"></h:commandButton>
+								<h:commandButton
+								value="Salvar"
+								action="#{fightClubBean.clienteUpdate}"
+								styleClass="btn btn-primary"
+								rendered="#{not empty fightClubBean.listaCliente and fightClubBean.editando}" />
 							</div>							
 						</div>
 						
